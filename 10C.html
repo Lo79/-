@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Board Exam Countdown</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: #121212; /* Dark background */
+            color: #ffffff; /* White text for contrast */
+        }
+        .container {
+            text-align: center;
+        }
+        .title {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #ffffff;
+        }
+        .flip-clock {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .digit-container {
+            text-align: center;
+        }
+        .digit {
+            background: #333333; /* Sleek black background */
+            color: #ffffff; /* White text */
+            font-size: 3rem;
+            font-weight: bold;
+            padding: 20px 30px;
+            border-radius: 8px;
+            min-width: 80px;
+            text-align: center;
+        }
+        .label {
+            margin-top: 10px;
+            font-size: 1rem;
+            font-weight: 400;
+            color: #cccccc; /* Lighter gray for labels */
+        }
+        /* Style for the game icon (rectangular button) with emo colors */
+        #gameIcon {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 80px;
+            height: 40px;
+            background-color: #333333; /* Color updated to #333333 */
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            font-weight: bold;
+            color: #E5E5E5; /* Light gray text */
+            text-transform: uppercase;
+        }
+        #gameIcon:hover, #gameIcon:active {
+            transform: scale(1.2); /* Smooth effect on hover/touch */
+        }
+        /* Style for the Instagram icon (rectangular button) */
+        #instaIcon {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 80px;
+            height: 40px;
+            background-color: #333333; /* Color updated to #333333 */
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            font-weight: bold;
+            color: #E5E5E5; /* Light gray text */
+            text-transform: uppercase;
+        }
+        #instaIcon:hover, #instaIcon:active {
+            transform: scale(1.2); /* Smooth effect on hover/touch */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title">BOARD EXAM</div>
+        <div class="flip-clock" id="clock">
+            <!-- Timer digits will be dynamically inserted here -->
+        </div>
+    </div>
+
+    <!-- Game icon (rectangular button) with emo color -->
+    <div id="gameIcon">Games</div>
+
+    <!-- Instagram icon (rectangular button) -->
+    <div id="instaIcon" onclick="window.location.href='https://www.instagram.com/le79i'">le79i</div>
+
+    <script>
+        function updateCountdown() {
+            const examDate = new Date("February 15, 2025 00:00:00");
+            const now = new Date();
+            const diff = examDate - now;
+
+            if (diff <= 0) {
+                document.getElementById("clock").innerHTML = ` 
+                    <div class="digit-container">
+                        <div class="digit">00</div>
+                        <div class="label">EXAM STARTED</div>
+                    </div>`;
+                return;
+            }
+
+            const days = String(Math.floor(diff / (1000 * 60 * 60 * 24))).padStart(2, "0");
+            const hours = String(Math.floor((diff / (1000 * 60 * 60)) % 24)).padStart(2, "0");
+            const minutes = String(Math.floor((diff / (1000 * 60)) % 60)).padStart(2, "0");
+            const seconds = String(Math.floor((diff / 1000) % 60)).padStart(2, "0");
+
+            const clock = document.getElementById("clock");
+            clock.innerHTML = `
+                <div class="digit-container">
+                    <div class="digit">${days}</div>
+                    <div class="label">Days</div>
+                </div>
+                <div class="digit-container">
+                    <div class="digit">${hours}</div>
+                    <div class="label">Hours</div>
+                </div>
+                <div class="digit-container">
+                    <div class="digit">${minutes}</div>
+                    <div class="label">Minutes</div>
+                </div>
+                <div class="digit-container">
+                    <div class="digit">${seconds}</div>
+                    <div class="label">Seconds</div>
+                </div>`;
+        }
+
+        setInterval(updateCountdown, 1000); // Update every second
+
+        // Function to show the countdown time left when the game icon is clicked
+        document.getElementById("gameIcon").addEventListener("click", function() {
+            const examDate = new Date("February 15, 2025 00:00:00");
+            const now = new Date();
+            const diff = examDate - now;
+
+            if (diff <= 0) {
+                alert("EXAM STARTED!");
+                return;
+            }
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const minutes = Math.floor((diff / (1000 * 60)) % 60);
+            const seconds = Math.floor((diff / 1000) % 60);
+
+            alert(`Only ${days} Days, ${hours} Hours, ${minutes} Minutes, and ${seconds} Seconds Left for BOARD EXAM!`);
+        });
+    </script>
+</body>
+</html>
+
