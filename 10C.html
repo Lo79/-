@@ -51,46 +51,92 @@
             font-weight: 400;
             color: #cccccc; /* Lighter gray for labels */
         }
-        /* Style for the game icon (rectangular button) with emo colors */
-        #gameIcon {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            width: 80px;
+        /* Style for the motivation button */
+        #motivationButton, #aboutButton, #linkButton {
+            width: 120px;
             height: 40px;
-            background-color: #333333; /* Color updated to #333333 */
+            background-color: #333333;
+            color: white;
+            font-weight: bold;
             border-radius: 10px;
             display: flex;
             justify-content: center;
             align-items: center;
             cursor: pointer;
             transition: transform 0.3s ease;
-            font-weight: bold;
-            color: #E5E5E5; /* Light gray text */
-            text-transform: uppercase;
+            position: fixed;
         }
-        #gameIcon:hover, #gameIcon:active {
+
+        #motivationButton:hover, #motivationButton:active, 
+        #aboutButton:hover, #aboutButton:active, 
+        #linkButton:hover, #linkButton:active {
             transform: scale(1.2); /* Smooth effect on hover/touch */
         }
-        /* Style for the Instagram icon (rectangular button) */
-        #instaIcon {
-            position: fixed;
+
+        /* Motivation Button */
+        #motivationButton {
+            bottom: 20px;
+            left: 20px;
+        }
+
+        /* Link Button to Instagram */
+        #linkButton {
             bottom: 20px;
             right: 20px;
-            width: 80px;
+        }
+
+        /* About Button */
+        #aboutButton {
+            bottom: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #333333; /* Changed to #333333 */
+            color: white;
+            font-weight: bold;
+            border-radius: 12px; /* Slightly rounded corners */
+            padding: 10px 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Add subtle shadow */
+        }
+
+        #aboutButton:hover, #aboutButton:active {
+            transform: translateX(-50%) scale(1.1); /* Smooth enlarge effect */
+            background-color: #4f4f4f; /* Lighter shade for hover */
+            box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3); /* More pronounced shadow */
+        }
+
+        /* Style for the About Dialog */
+        #aboutDialog {
+            display: none;
+            position: fixed;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #1A3D5D;
+            padding: 30px;
+            border-radius: 10px;
+            color: white;
+            max-width: 400px;
+            text-align: center;
+        }
+        .dialog-text {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+        .closeButton {
+            width: 120px;
             height: 40px;
-            background-color: #333333; /* Color updated to #333333 */
+            background-color: #333333;
+            color: white;
+            font-weight: bold;
             border-radius: 10px;
             display: flex;
             justify-content: center;
             align-items: center;
             cursor: pointer;
             transition: transform 0.3s ease;
-            font-weight: bold;
-            color: #E5E5E5; /* Light gray text */
-            text-transform: uppercase;
         }
-        #instaIcon:hover, #instaIcon:active {
+        .closeButton:hover, .closeButton:active {
             transform: scale(1.2); /* Smooth effect on hover/touch */
         }
     </style>
@@ -103,13 +149,97 @@
         </div>
     </div>
 
-    <!-- Game icon (rectangular button) with emo color -->
-    <div id="gameIcon">Games</div>
+    <!-- Motivation Button -->
+    <div id="motivationButton">Motivation</div>
 
-    <!-- Instagram icon (rectangular button) -->
-    <div id="instaIcon" onclick="window.location.href='https://www.instagram.com/le79i'">le79i</div>
+    <!-- Link Button to Instagram -->
+    <div id="linkButton" onclick="window.location.href='https://www.instagram.com/le79i'">le79i</div>
+
+    <!-- About Button -->
+    <div id="aboutButton">About</div>
+
+    <!-- About Dialog Box -->
+    <div id="aboutDialog">
+        <div class="dialog-text">This website was created with the help of ChatGPT, an AI assistant, to bring my ideas to life. Thank you for visiting!</div>
+        <div class="closeButton" id="closeButton">Close</div>
+    </div>
 
     <script>
+        const quotes = [
+            "Success is the sum of small efforts, repeated day in and day out.",
+            "The future belongs to those who believe in the beauty of their dreams.",
+            "Don’t watch the clock; do what it does. Keep going.",
+            "Hard work beats talent when talent doesn’t work hard.",
+            "The only limit to our realization of tomorrow is our doubts of today.",
+            "It always seems impossible until it's done.",
+            "Your time is limited, so don’t waste it living someone else’s life.",
+            "Opportunities don't happen, you create them.",
+            "Success usually comes to those who are too busy to be looking for it.",
+            "Don’t be afraid to give up the good to go for the great.",
+            "I find that the harder I work, the more luck I seem to have.",
+            "You miss 100% of the shots you don’t take.",
+            "The only way to do great work is to love what you do.",
+            "If you are not willing to risk the usual, you will have to settle for the ordinary.",
+            "Success is not final, failure is not fatal: It is the courage to continue that counts.",
+            "You must be the change you wish to see in the world.",
+            "We cannot solve our problems with the same thinking we used when we created them.",
+            "What lies behind us and what lies before us are tiny matters compared to what lies within us.",
+            "Believe you can and you're halfway there.",
+            "If you can dream it, you can do it.",
+            "It does not matter how slowly you go as long as you do not stop.",
+            "Everything you’ve ever wanted is on the other side of fear.",
+            "Do what you can with all you have, wherever you are.",
+            "Keep your face always toward the sunshine—and shadows will fall behind you.",
+            "What you get by achieving your goals is not as important as what you become by achieving your goals.",
+            "The road to success and the road to failure are almost exactly the same.",
+            "Success is how high you bounce when you hit bottom.",
+            "I am not a product of my circumstances. I am a product of my decisions.",
+            "Every strike brings me closer to the next home run.",
+            "I never dreamed about success. I worked for it.",
+            "The way to get started is to quit talking and begin doing.",
+            "Your limitation—it’s only your imagination.",
+            "Push yourself, because no one else is going to do it for you.",
+            "Great things never come from comfort zones.",
+            "Dream it. Wish it. Do it.",
+            "Success doesn’t just find you. You have to go out and get it.",
+            "The harder you work for something, the greater you’ll feel when you achieve it.",
+            "Dream bigger. Do bigger.",
+            "Don’t stop when you’re tired. Stop when you’re done.",
+            "Wake up with determination. Go to bed with satisfaction.",
+            "Do something today that your future self will thank you for.",
+            "Little things make big days.",
+            "It’s going to be hard, but hard does not mean impossible.",
+            "Don’t wait for opportunity. Create it.",
+            "Sometimes we’re tested not to show our weaknesses, but to discover our strengths.",
+            "The key to success is to focus on goals, not obstacles.",
+            "Dream it. Believe it. Build it.",
+            "The only way to achieve the impossible is to believe it is possible.",
+            "Act as if what you do makes a difference. It does.",
+            "Success doesn’t come from what you do occasionally, it comes from what you do consistently.",
+            "You are never too old to set another goal or to dream a new dream.",
+            "The best way to predict the future is to create it.",
+            "A little progress each day adds up to big results.",
+            "Success is not the key to happiness. Happiness is the key to success.",
+            "Happiness is not something ready-made. It comes from your own actions.",
+            "If you want to live a happy life, tie it to a goal, not to people or things.",
+            "You have to learn the rules of the game. And then you have to play better than anyone else."
+        ];
+
+        document.getElementById("motivationButton").addEventListener("click", function() {
+            const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+            alert(randomQuote);
+        });
+
+        // Show About Dialog
+        document.getElementById("aboutButton").addEventListener("click", function() {
+            document.getElementById("aboutDialog").style.display = "block";
+        });
+
+        // Close About Dialog
+        document.getElementById("closeButton").addEventListener("click", function() {
+            document.getElementById("aboutDialog").style.display = "none";
+        });
+
         function updateCountdown() {
             const examDate = new Date("February 15, 2025 00:00:00");
             const now = new Date();
@@ -150,26 +280,7 @@
         }
 
         setInterval(updateCountdown, 1000); // Update every second
-
-        // Function to show the countdown time left when the game icon is clicked
-        document.getElementById("gameIcon").addEventListener("click", function() {
-            const examDate = new Date("February 15, 2025 00:00:00");
-            const now = new Date();
-            const diff = examDate - now;
-
-            if (diff <= 0) {
-                alert("EXAM STARTED!");
-                return;
-            }
-
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-            const minutes = Math.floor((diff / (1000 * 60)) % 60);
-            const seconds = Math.floor((diff / 1000) % 60);
-
-            alert(`Only ${days} Days, ${hours} Hours, ${minutes} Minutes, and ${seconds} Seconds Left for BOARD EXAM!`);
-        });
+        updateCountdown();
     </script>
 </body>
 </html>
-
